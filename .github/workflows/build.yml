@@ -14,12 +14,12 @@ jobs:
       - name: Clone OpenOrbis
         run: git clone https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain.git
 
-      - name: Show environment
+      - name: Install dependencies
         run: |
-          clang --version
-          python3 --version
+          sudo apt-get update
+          sudo apt-get install -y clang lld make python3 cmake ninja-build
 
-      - name: Build
+      - name: Build OpenOrbis
         run: |
           export OO_PS4_TOOLCHAIN="$GITHUB_WORKSPACE/OpenOrbis-PS4-Toolchain"
           cd OpenOrbis-PS4-Toolchain
