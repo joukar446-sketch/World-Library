@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS4 Game Library</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080b12;color:white;font-family:Arial;text-align:center}
+h1{margin:20px 0}
+#library{display:flex;justify-content:flex-start;align-items:center;gap:10px;padding:20px 15px;overflow-x:auto;overflow-y:hidden;min-height:220px}
+.game{width:110px;flex:0 0 110px;opacity:.35;transform:scale(.82);transition:.2s}
+.game.selected{opacity:1;transform:scale(1.05)}
+.game img{width:110px;height:155px;object-fit:cover;border-radius:14px;background:#202634}
+.game.selected img{outline:4px solid white}
+.game p{font-size:14px}
+#selectedName{font-size:20px;font-weight:bold;margin:10px}
+button{background:#202b3d;color:white;border:1px solid #64748b;border-radius:12px;padding:13px 20px;margin:5px;font-size:19px}
+button:active{transform:scale(.9)}
+#status{height:35px;margin:10px;font-size:19px}
+#info{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:5;padding:30px}
+#info img{width:230px;height:300px;object-fit:cover;border-radius:15px}
+#info h2{font-size:30px}
+</style>
+</head>
+<body>
+
+<h1>🎮 MY PS4 GAME LIBRARY</h1>
+<div id="library"></div>
+<div id="selectedName"></div>
+
+<div>
+<button onclick="up()">⬆️</button>
+</div>
+<div>
+<button onclick="left()">⬅️</button>
+<button onclick="selectGame()">✕ SELECT</button>
+<button onclick="right()">➡️</button>
+</div>
+<div>
+<button onclick="down()">⬇️</button>
+</div>
+
+<div id="status">اختر لعبة</div>
+
+<div id="info">
+<img id="infoImg">
+<h2 id="infoName"></h2>
+<button onclick="launch()">▶️ تشغيل</button>
+<button onclick="back()">⭕ رجوع</button>
+</div>
+
+<script>
+let games=[
+{name:"GTA V",image:"assets/gta5.jpeg"},
+{name:"God of War",image:"assets/gow.jpeg"},
+{name:"Sekiro",image:"assets/sekiro.jpeg"},
+{name:"Elden Ring",image:"assets/eldenring.jpeg"},
+{name:"Lies of P",image:"assets/liesofp.jpeg"},
+{name:"Ghost of Tsushima",image:"assets/ghost.jpeg"},
+{name:"Horizon Zero Dawn",image:"assets/horizon.jpeg"},
+{name:"Uncharted 4",image:"assets/uncharted4.jpeg"},
+{name:"The Last of Us Part II",image:"assets/tlou2.jpeg"},
+{name:"Bloodborne",image:"assets/bloodborne.jpeg"}
+];
+
+let selected=0;
+
+function placeholder(name){
+return "data:image/svg+xml;charset=UTF-8,"+
+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='400' height='550'><rect width='100%' height='100%' fill='#202634'/><text x='50%' y='50%' fill='white' font-size='25' text-anchor='middle'>"+name+"</text></svg>");
+}
+
+function show(){
+let box=document.getElementById("library");
+box.innerHTML="";
+games.forEach((g,i)=>{
+let d=document.createElement("div");
+d.className="game"+(i===selected?" selected":"");
+let img=document.createElement("img");
+img.src=g.image;
+img.onerror=()=>img.src=placeholder(g.name);
+d.appendChild(img);
+let p=document.createElement("p");
+p.textContent=g.name;
+d.appendChild(p);
+box.appendChild(d);
+});
+document.getElementById("selectedName").textContent=games[selected].name;
+}
+
+function right(){selected=(selected+1)%games.length;show()}
+function left(){selected=(selected-1+games.length)%games.length;show()}
+function up(){left()}
+function down(){right()}
+
+function selectGame(){
+let g=games[selected];
+document.getElementById("infoImg").src=g.image;
+document.getElementById("infoImg").onerror=()=>document.getElementById("infoImg").src=placeholder(g.name);
+document.getElementById("infoName").textContent=g.name;
+document.getElementById("info").style.display="block";
+}
+
+function back(){
+document.getElementById("info").style.display="none";
+}
+
+function launch(){
+document.getElementById("status").textContent="▶️ "+games[selected].name+" — التشغيل غير مربوط بعد";
+back();
+}
+
+document.addEventListener("keydown",e=>{
+if(e.key==="ArrowRight")right();
+if(e.key==="ArrowLeft")left();
+if(e.key==="ArrowUp")up();
+if(e.key==="ArrowDown")down();
+if(e.key==="Enter"||e.key.toLowerCase()==="x")selectGame();
+if(e.key==="Escape"||e.key.toLowerCase()==="o")back();
+});
+
+show();
+</script>
+</body>
+</html>

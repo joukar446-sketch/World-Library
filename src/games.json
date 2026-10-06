@@ -1,0 +1,42 @@
+[
+  {
+    "name": "GTA V",
+    "image": "assets/gta5.jpeg"
+  },
+  {
+    "name": "God of War",
+    "image": "assets/gow.jpeg"
+  },
+  {
+    "name": "Sekiro",
+    "image": "assets/sekiro.jpeg"
+  },
+  {
+    "name": "Elden Ring",
+    "image": "assets/eldenring.jpeg"
+  },
+  {
+    "name": "Lies of P",
+    "image": "assets/liesofp.jpeg"
+  },
+  {
+    "name": "Ghost of Tsushima",
+    "image": "assets/ghost.jpeg"
+  },
+  {
+    "name": "Horizon Zero Dawn",
+    "image": "assets/horizon.jpeg"
+  },
+  {
+    "name": "Uncharted 4",
+    "image": "assets/uncharted4.jpeg"
+  },
+  {
+    "name": "The Last of Us Part II",
+    "image": "assets/tlou2.jpeg"
+  },
+  {
+    "name": "Bloodborne",
+    "image": "assets/bloodborne.jpeg"
+  }
+]
