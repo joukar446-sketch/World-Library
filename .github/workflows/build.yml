@@ -11,10 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build PS4 PKG
-        uses: OpenOrbis/toolchain-action@main
-        with:
-          version: v0.5.1
-          command: |
-            cd ps4-app
-            make
+      - name: Build with OpenOrbis
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace/ps4-app \
+            openorbisofficial/toolchain:latest \
+            bash -c 'make'
