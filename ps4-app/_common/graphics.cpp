@@ -9,7 +9,6 @@
 #include "log.h"
 
 Scene2D::Scene2D(int w, int h, int pixelDepth)
-Scene2D::~Scene2D() {}
 {
 	this->width = w;
 	this->height = h;
@@ -332,3 +331,5 @@ void Scene2D::DrawText(char *txt, FT_Face face, int startX, int startY, Color bg
 }
 #endif
 
+
+Scene2D::~Scene2D() {}
