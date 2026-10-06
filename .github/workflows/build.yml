@@ -1,0 +1,27 @@
+name: Build World Library
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Clone OpenOrbis
+        run: git clone https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain.git
+
+      - name: Show environment
+        run: |
+          clang --version
+          python3 --version
+          ls -la OpenOrbis-PS4-Toolchain
+
+      - name: Build
+        run: |
+          cd OpenOrbis-PS4-Toolchain
+          bash extra/setup-project.sh
+          make
