@@ -22,7 +22,7 @@ all: eboot.bin
 
 eboot.bin: $(OBJS)
 >$(LD) $(OBJS) -o $(INTDIR)/WorldLibrary.elf $(LDFLAGS)
->$(TOOLCHAIN)/bin/linux/create-fself -in=$(INTDIR)/WorldLibrary.elf -out=$(INTDIR)/WorldLibrary.oelf --eboot eboot.bin --paid 0x3800000000000011
+>create-fself -in=$(INTDIR)/WorldLibrary.elf -out=$(INTDIR)/WorldLibrary.oelf --eboot eboot.bin --paid 0x3800000000000011
 
 $(INTDIR):
 >mkdir -p $(INTDIR)
