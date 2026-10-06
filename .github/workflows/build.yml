@@ -18,10 +18,10 @@ jobs:
         run: |
           clang --version
           python3 --version
-          ls -la OpenOrbis-PS4-Toolchain
 
       - name: Build
         run: |
+          export OO_PS4_TOOLCHAIN="$GITHUB_WORKSPACE/OpenOrbis-PS4-Toolchain"
           cd OpenOrbis-PS4-Toolchain
-export OO_PS4_TOOLCHAIN="$GITHUB_WORKSPACE/OpenOrbis-PS4-Toolchain"
-bash extra/setup-project.sh          make
+          bash extra/setup-project.sh
+          make
