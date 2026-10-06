@@ -16,4 +16,5 @@ jobs:
         with:
           version: v0.5.4
           command: |
-            echo "World Library build environment ready"
+            echo "OpenOrbis toolchain is working"
+            ls -la
