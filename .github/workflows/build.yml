@@ -23,5 +23,5 @@ jobs:
       - name: Build
         run: |
           cd OpenOrbis-PS4-Toolchain
-          bash extra/setup-project.sh
-          make
+export OO_PS4_TOOLCHAIN="$GITHUB_WORKSPACE/OpenOrbis-PS4-Toolchain"
+bash extra/setup-project.sh          make
