@@ -1,4 +1,4 @@
-cd ~/PS4GameLibrary/ps4-app
+
 
 cat > Makefile <<'EOF'
 TITLE       := World Library
