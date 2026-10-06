@@ -1,4 +1,4 @@
-name: Build World Library
+ame: Build World Library
 
 on:
   workflow_dispatch:
@@ -11,10 +11,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run OpenOrbis Toolchain
-        uses: OpenOrbis/toolchain-action@main
-        with:
-          version: v0.5.4
-          command: |
-            echo "OpenOrbis toolchain is working"
-            ls -la
+      - name: Test OpenOrbis Docker Toolchain
+        run: |
+          docker run --rm \
+            -w /workspace \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            openorbisofficial/toolchain:latest \
+            bash -c 'echo "OpenOrbis OK"; echo "Toolchain: $OO_TOOLCHAIN_VERSION"; ls -la'
+
