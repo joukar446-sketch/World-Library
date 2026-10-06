@@ -1,47 +1,40 @@
+cd ~/PS4GameLibrary/ps4-app
+
+cat > Makefile <<'EOF'
 TITLE       := World Library
 VERSION     := 1.00
 TITLE_ID    := WLIB00001
 CONTENT_ID  := IV0000-WLIB00001_00-WORLDLIBRARY0001
 
-LIBS        := -lc -lkernel -lc++ -lSceVideoOut
+LIBS := -lc -lkernel -lc++ -lSceVideoOut
 
-ASSETS      := $(wildcard assets/**/*)
-LIBMODULES  := $(wildcard sce_module/*)
+TOOLCHAIN := $(OO_PS4_TOOLCHAIN)
+INTDIR := x64/Debug
 
-TOOLCHAIN   := $(OO_PS4_TOOLCHAIN)
-PROJDIR     := .
-COMMONDIR   := $(TOOLCHAIN)/samples/_common
-INTDIR      := x64/Debug
-
-CFILES      := $(wildcard *.c)
-CPPFILES    := $(wildcard *.cpp)
-COMMONFILES := $(wildcard $(COMMONDIR)/*.cpp)
+CFILES := $(wildcard *.c)
+CPPFILES := $(wildcard *.cpp)
 
 OBJS := \
 	$(patsubst %.c,$(INTDIR)/%.o,$(CFILES)) \
 	$(patsubst %.cpp,$(INTDIR)/%.o,$(CPPFILES)) \
-	$(patsubst $(COMMONDIR)/%.cpp,$(INTDIR)/common_%.o,$(COMMONFILES))
+	$(INTDIR)/common_graphics.o
 
-CFLAGS   := --target=x86_64-pc-freebsd12-elf -fPIC -funwind-tables -c $(EXTRAFLAGS) -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include
+CFLAGS := --target=x86_64-pc-freebsd12-elf -fPIC -funwind-tables -c -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include
 CXXFLAGS := $(CFLAGS) -isystem $(TOOLCHAIN)/include/c++/v1
 
 LDFLAGS := -m elf_x86_64 -pie --script $(TOOLCHAIN)/link.x --eh-frame-hdr -L$(TOOLCHAIN)/lib $(LIBS) $(TOOLCHAIN)/lib/crt1.o
 
-UNAME_S := $(shell uname -s)
-
-ifeq ($(UNAME_S),Linux)
-	CC  := clang
-	CCX := clang++
-	LD  := ld.lld
-	CDIR := linux
-endif
+CC := clang
+CCX := clang++
+LD := ld.lld
+CDIR := linux
 
 all: $(CONTENT_ID).pkg
 
 $(CONTENT_ID).pkg: pkg.gp4
 	$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core pkg_build $< .
 
-pkg.gp4: eboot.bin sce_sys/about/right.sprx sce_sys/param.sfo $(LIBMODULES) $(ASSETS)
+pkg.gp4: eboot.bin sce_sys/about/right.sprx sce_sys/param.sfo
 	$(TOOLCHAIN)/bin/$(CDIR)/create-gp4 -out $@ --content-id=$(CONTENT_ID) --files "$^"
 
 sce_sys/param.sfo: Makefile
@@ -70,9 +63,10 @@ $(INTDIR)/%.o: %.cpp
 	mkdir -p $(INTDIR)
 	$(CCX) $(CXXFLAGS) -o $@ $<
 
-$(INTDIR)/common_%.o: $(COMMONDIR)/%.cpp
+$(INTDIR)/common_graphics.o: _common/graphics.cpp
 	mkdir -p $(INTDIR)
 	$(CCX) $(CXXFLAGS) -o $@ $<
 
 clean:
 	rm -rf $(CONTENT_ID).pkg pkg.gp4 eboot.bin x64
+EOF
