@@ -13,7 +13,7 @@ jobs:
 
       - name: Build with OpenOrbis
         run: |
-          docker run --rm \
+          docker run --rm --user root \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace/ps4-app \
             openorbisofficial/toolchain:latest \
