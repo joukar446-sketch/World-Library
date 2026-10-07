@@ -1,4 +1,4 @@
-name: Build World Library - GP4 Debug
+name: Build World Library PS4
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
           cd /tmp/create-gp4/cmd/create-gp4
           GO111MODULE=off go build -o /tmp/create-gp4-bin main.go
 
-      - name: Build GP4
+      - name: Build PKG
         run: |
           docker run --rm --user root \
             -v "$GITHUB_WORKSPACE:/workspace" \
@@ -32,17 +32,18 @@ jobs:
             bash -c '
               cp /tmp/create-gp4 /lib/OpenOrbisSDK/bin/linux/create-gp4
               chmod +x /lib/OpenOrbisSDK/bin/linux/create-gp4
-              make pkg.gp4
+              make clean
+              make
             '
 
-      - name: Show generated GP4
+      - name: Check PKG
         run: |
-          echo "========== pkg.gp4 =========="
-          cat ps4-app/pkg.gp4
-          echo "========== END GP4 =========="
+          echo "========== PKG FILES =========="
+          ls -lh ps4-app/*.pkg
+          echo "========== END =========="
 
-      - name: Upload GP4
+      - name: Upload PS4 PKG
         uses: actions/upload-artifact@v4
         with:
-          name: World-Library-GP4
-          path: ps4-app/pkg.gp4
+          name: World-Library-PS4-PKG
+          path: ps4-app/*.pkg
