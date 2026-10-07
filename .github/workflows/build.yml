@@ -1,15 +1,15 @@
-name: Check PkgTool
+name: Find GP4
 
 on:
   workflow_dispatch:
 
 jobs:
-  check:
+  find:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Check PkgTool help
+      - name: Find GP4 files
         run: |
           docker run --rm --user root \
             openorbisofficial/toolchain:latest \
-            bash -c '/lib/OpenOrbisSDK/bin/linux/PkgTool.Core --help || /lib/OpenOrbisSDK/bin/linux/PkgTool.Core help || /lib/OpenOrbisSDK/bin/linux/PkgTool.Core'
+            bash -c 'find /lib/OpenOrbisSDK -type f \( -name "*.gp4" -o -name "*gp4*" \) -print'
