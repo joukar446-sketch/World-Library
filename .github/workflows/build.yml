@@ -20,7 +20,7 @@ jobs:
         run: |
           git clone https://github.com/OpenOrbis/create-gp4.git /tmp/create-gp4
           cd /tmp/create-gp4
-          go build -o /tmp/create-gp4-bin ./cmd/create-gp4
+          go build -o /tmp/create-gp4-bin
 
       - name: Build World Library
         run: |
