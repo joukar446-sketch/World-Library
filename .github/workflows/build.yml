@@ -1,20 +1,38 @@
-name: Check create-gp4
+name: Build World Library
 
 on:
   workflow_dispatch:
 
 jobs:
-  check:
+  build:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Inspect create-gp4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Build create-gp4
         run: |
           git clone https://github.com/OpenOrbis/create-gp4.git /tmp/create-gp4
           cd /tmp/create-gp4
-          echo "=== FILES ==="
-          find . -maxdepth 2 -type f -print
-          echo "=== README ==="
-          cat README.md || true
-          echo "=== GO FILES ==="
-          find . -name "*.go" -print
+          go build -o /tmp/create-gp4-bin ./cmd/create-gp4
+
+      - name: Build World Library
+        run: |
+          docker run --rm --user root \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -v "/tmp/create-gp4-bin:/usr/local/bin/create-gp4" \
+            -w /workspace/ps4-app \
+            openorbisofficial/toolchain:latest \
+            bash -c 'make'
+
+      - name: Upload PKG
+        uses: actions/upload-artifact@v4
+        with:
+          name: World-Library-PKG
+          path: ps4-app/*.pkg
