@@ -25,7 +25,7 @@ $(CONTENT_ID).pkg: pkg.gp4
 >$(TOOLCHAIN)/bin/linux/PkgTool.Core pkg_build $< .
 
 pkg.gp4: eboot.bin sce_sys/param.sfo
->$(TOOLCHAIN)/bin/linux/create-gp4 -out $@ --content-id=$(CONTENT_ID) --files $^
+>$(TOOLCHAIN)/bin/linux/create-gp4 -out $@ --content-id=$(CONTENT_ID) --files "eboot.bin sce_sys/param.sfo"
 
 sce_sys/param.sfo: Makefile
 >$(TOOLCHAIN)/bin/linux/PkgTool.Core sfo_new $@
