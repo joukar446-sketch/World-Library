@@ -19,8 +19,8 @@ jobs:
       - name: Build create-gp4
         run: |
           git clone https://github.com/OpenOrbis/create-gp4.git /tmp/create-gp4
-          cd /tmp/create-gp4
-          go build -o /tmp/create-gp4-bin
+          cd /tmp/create-gp4/cmd/create-gp4
+          GO111MODULE=off go build -o /tmp/create-gp4-bin main.go
 
       - name: Build World Library
         run: |
