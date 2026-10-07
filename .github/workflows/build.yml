@@ -11,10 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build with OpenOrbis
+      - name: Check OpenOrbis tools
         run: |
           docker run --rm --user root \
-            -v "$GITHUB_WORKSPACE:/workspace" \
-            -w /workspace/ps4-app \
             openorbisofficial/toolchain:latest \
-            bash -c 'make'
+            bash -c 'echo "=== OpenOrbis tools ==="; ls -la /lib/OpenOrbisSDK/bin/linux; echo "=== GP4 tools ==="; find /lib/OpenOrbisSDK -iname "*gp4*" -o -iname "*pkg*" | head -50'
