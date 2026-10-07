@@ -1,28 +1,15 @@
-name: Build World Library PS4
+name: Check OpenOrbis Tools
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build with OpenOrbis
+      - name: Check OpenOrbis tools
         run: |
           docker run --rm --user root \
-            -v "$GITHUB_WORKSPACE:/workspace" \
-            -w /workspace/ps4-app \
             openorbisofficial/toolchain:latest \
-            bash -c 'make'
-
-      - name: Upload PS4 PKG
-        uses: actions/upload-artifact@v4
-        with:
-          name: World-Library-PS4
-          path: |
-            ps4-app/*.pkg
-            ps4-app/*.gp4
+            bash -c 'echo "=== BIN/LINUX ==="; ls -lah /lib/OpenOrbisSDK/bin/linux; echo "=== ALL GP4/PKG TOOLS ==="; find /lib/OpenOrbisSDK -type f \( -iname "*gp4*" -o -iname "*pkg*" \) -print'
