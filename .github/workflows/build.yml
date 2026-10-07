@@ -1,4 +1,4 @@
-name: Check OpenOrbis Tools
+name: Check PkgTool
 
 on:
   workflow_dispatch:
@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Check OpenOrbis tools
+      - name: Check PkgTool help
         run: |
           docker run --rm --user root \
             openorbisofficial/toolchain:latest \
-            bash -c 'echo "=== BIN/LINUX ==="; ls -lah /lib/OpenOrbisSDK/bin/linux; echo "=== ALL GP4/PKG TOOLS ==="; find /lib/OpenOrbisSDK -type f \( -iname "*gp4*" -o -iname "*pkg*" \) -print'
+            bash -c '/lib/OpenOrbisSDK/bin/linux/PkgTool.Core --help || /lib/OpenOrbisSDK/bin/linux/PkgTool.Core help || /lib/OpenOrbisSDK/bin/linux/PkgTool.Core'
