@@ -1,15 +1,15 @@
-name: Find GP4
+name: Show GP4 Template
 
 on:
   workflow_dispatch:
 
 jobs:
-  find:
+  show:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Find GP4 files
+      - name: Show template.gp4
         run: |
           docker run --rm --user root \
             openorbisofficial/toolchain:latest \
-            bash -c 'find /lib/OpenOrbisSDK -type f \( -name "*.gp4" -o -name "*gp4*" \) -print'
+            bash -c 'cat /lib/OpenOrbisSDK/bin/data/template.gp4'
