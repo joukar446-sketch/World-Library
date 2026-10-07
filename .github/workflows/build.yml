@@ -26,10 +26,14 @@ jobs:
         run: |
           docker run --rm --user root \
             -v "$GITHUB_WORKSPACE:/workspace" \
-            -v "/tmp/create-gp4-bin:/usr/local/bin/create-gp4" \
+            -v "/tmp/create-gp4-bin:/tmp/create-gp4" \
             -w /workspace/ps4-app \
             openorbisofficial/toolchain:latest \
-            bash -c 'make'
+            bash -c '
+              cp /tmp/create-gp4 /lib/OpenOrbisSDK/bin/linux/create-gp4
+              chmod +x /lib/OpenOrbisSDK/bin/linux/create-gp4
+              make
+            '
 
       - name: Upload PKG
         uses: actions/upload-artifact@v4
